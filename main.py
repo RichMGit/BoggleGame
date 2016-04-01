@@ -18,24 +18,21 @@ cubes = [
     ['a', 's', 'w', 'a', 'g', 'n'],
     ['a', 't', 'y', 'u', 'i', 'n']
 ]
+game_letters = []
+grid = []
 
 for cube in cubes:
     random.shuffle(cube)
-
 random.shuffle(cubes)
-
-game_letters = []
 
 for cube in cubes:
     game_letters.append(cube[0])
 
-grid = []
 a = 0
 for x in range(4):
     grid.append(game_letters[a:a+4])
     a += 4
 
-print(game_letters)
 print(grid)
 
 
@@ -48,7 +45,6 @@ def is_next_letter_valid(first, second):
         return False
 
 
-
 def find_letter_coordinates(letter):
     coordinate_store = []
     # Given a letter return a list of all the coordinates that contain that letter
@@ -57,6 +53,7 @@ def find_letter_coordinates(letter):
             if grid[row][column] == letter:
                 coordinate_store.append([row, column])
     return coordinate_store
+
 
 def remove_invalid_coordinates(coordinate_list, neighbour):
     for coordinate in coordinate_list:
@@ -72,11 +69,3 @@ user_word = input('Enter a word: ')
 print(find_letter_coordinates(user_word[0]))
 print(remove_invalid_coordinates([[1, 1], [2, 2], [4, 4]], [1, 2]))
 
-# word_one = input('Enter a word: ')
-# word_split = word_one
-# print(word_split)
-# if word_split[0] in game_letters:
-#     fl = game_letters.index(word_split[0])
-#     print(fl)
-# elif word_split[0] not in game_letters:
-#     print('letter not found')
