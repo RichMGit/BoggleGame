@@ -1,6 +1,6 @@
 import random
 
-cubes = [
+dice = [
     ['a', 'a', 'e', 'e', 'g', 'n'],
     ['a', 'b', 'b', 'j', 'o', 'o'],
     ['a', 'c', 'h', 'o', 'p', 's'],
@@ -18,22 +18,27 @@ cubes = [
     ['a', 's', 'w', 'a', 'g', 'n'],
     ['a', 't', 'y', 'u', 'i', 'n']
 ]
-game_letters = []
-grid = []
 
-for cube in cubes:
-    random.shuffle(cube)
-random.shuffle(cubes)
 
-for cube in cubes:
-    game_letters.append(cube[0])
-
-a = 0
-for x in range(4):
-    grid.append(game_letters[a:a+4])
-    a += 4
-
-print(grid)
+def create_grid(sets_of_dice):
+    letters = []
+    grid = []
+    for die in sets_of_dice:  # die is singular for dice :)
+        random.shuffle(die)
+    random.shuffle(sets_of_dice)
+    for die in dice:
+        letters.append(die[0])
+    a = 0
+    for _ in range(4):  # runs 4 times
+        grid.append(letters[a:a+4])
+        a += 4
+    return grid
+# [
+#     ['a', 'a', 'e', 'e'],
+#     ['a', 'a', 'e', 'e'],
+#     ['a', 'a', 'e', 'e'],
+#     ['a', 'a', 'e', 'e']
+# ]
 
 
 def is_next_letter_valid(first, second):
@@ -61,11 +66,46 @@ def remove_invalid_coordinates(coordinate_list, neighbour):
             coordinate_list.remove(coordinate)
     return coordinate_list
 
+
+def print_grid(grid):
+    for row in grid:
+        print(' '.join(row))
+
+
+def unknown(user_word):
+    for index, letter in enumerate(user_word):
+        for s in find_letter_coordinates(user_word[index]):
+            if index == len(user_word) - 1:
+                return False
+            for a in find_letter_coordinates(user_word[index + 1]):
+                if is_next_letter_valid(s, a):
+                    print(s, a, 'are valid')
+                    return True
+    return False
+
+grid = create_grid(dice)
+print_grid(grid)
+
 if is_next_letter_valid([0, 0], [0, 1]):
     print('This is ok')
 
 user_word = input('Enter a word: ')
+print(unknown(user_word))
 
-print(find_letter_coordinates(user_word[0]))
-print(remove_invalid_coordinates([[1, 1], [2, 2], [4, 4]], [1, 2]))
+
+
+# for index in len(user_word):
+#     for s in find_letter_coordinates(user_word[index]):
+#         for a in find_letter_coordinates(user_word[1]):
+#             if is_next_letter_valid(s, a):
+#                 for p in find_letter_coordinates(user_word[2]):
+#                     if is_next_letter_valid(a, p):
+#                         return True
+
+
+
+# first_letter_coordinates = find_letter_coordinates(user_word[0])
+#
+#
+# print(remove_invalid_coordinates(first_letter_coordinates, [1, 2]))
 
