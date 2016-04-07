@@ -72,12 +72,12 @@ def find_letter_coordinates(letter, list_of_valid_coordinates_of_the_previous_le
 
 def is_word_on_board(word):
     index = 0
-    coordinates = find_letter_coordinates(user_word[index])
+    coordinates = find_letter_coordinates(word[index])
     while len(coordinates) > 0:
         if index == len(word) -1:
             return True
         index += 1
-        coordinates = find_letter_coordinates(user_word[index], coordinates)
+        coordinates = find_letter_coordinates(word[index], coordinates)
     return False
 
 
@@ -114,6 +114,16 @@ def word_score(word):
     else:
         return 0
 
+def python_has_a_go():
+    print("Python is having a go..")
+    pythons_score = 0
+    for word in open("word_list.txt"):
+        word = word.rstrip()
+        if len(word) >= 3:
+            if is_word_on_board(word):
+                pythons_score += word_score(word)
+                print("Python found ", word, "and has now scored ", pythons_score)
+
 # Create coords lists for each letter
 # Function needed that is passed two lists of coordinates, returns the lists minus any that aren't valid with each other
 # Function to iterate through the word
@@ -121,10 +131,12 @@ grid = create_grid(dice)
 print_grid(grid)
 
 score = 0
-for _ in range(5):
-    user_word = input('Enter a word: ')
-    if is_word_valid(user_word):
-        score += word_score(user_word)
-        print ("Correct. New score: ", str(score))
-    else:
-        print ("Invalid word")
+# for _ in range(5):
+#     user_word = input('Enter a word: ')
+#     if is_word_valid(user_word):
+#         score += word_score(user_word)
+#         print ("Correct. New score: ", str(score))
+#     else:
+#         print ("Invalid word")
+
+python_has_a_go()
